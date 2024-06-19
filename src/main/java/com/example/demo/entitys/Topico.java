@@ -1,5 +1,6 @@
 package com.example.demo.entitys;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -22,16 +23,23 @@ public class Topico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotBlank
     private String titulo;
+
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Autor autor;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Mensagem mensagem;
+
     @Temporal(TemporalType.DATE)
     private Date dataCriacao;
+
     @Enumerated
     private Estado estado;
+
     @OneToMany
     private List<Mensagem> respostas;
 
@@ -45,7 +53,7 @@ public class Topico {
     }
 
     public Topico(TopicoDto dto) {
-        this(dto.titulo(),new Autor(dto.autor()), dto.mensagem());
+        this(dto.titulo(), new Autor(dto.autor()), dto.mensagem());
     }
 
     protected Topico() {}

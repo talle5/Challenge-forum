@@ -13,11 +13,15 @@ public class Mensagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     @OneToOne
     Mensagem pai;
+
     @ManyToOne(cascade = CascadeType.ALL)
     Autor autor;
+
     String conteudo;
+
     Date criacao;
 
     protected Mensagem() {}

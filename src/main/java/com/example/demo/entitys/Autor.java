@@ -1,5 +1,6 @@
 package com.example.demo.entitys;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,12 +16,18 @@ public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     @Column(unique = true)
     String nome;
-    @OneToMany(mappedBy = "autor",cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+    @JsonBackReference
     List<Topico> topicos;
-    @OneToMany(mappedBy = "autor",cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+    @JsonBackReference
     List<Mensagem> mensagems;
+
     Date ingreso;
 
     protected Autor() {}
