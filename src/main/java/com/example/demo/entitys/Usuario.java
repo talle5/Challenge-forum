@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Autor {
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -28,11 +28,12 @@ public class Autor {
     @JsonBackReference
     List<Mensagem> mensagems;
 
+    @Temporal(TemporalType.DATE)
     Date ingreso;
 
-    protected Autor() {}
+    protected Usuario() {}
 
-    public Autor(String name) {
+    public Usuario(String name) {
         this.nome = name;
         topicos = new ArrayList<>();
         mensagems = new ArrayList<>();

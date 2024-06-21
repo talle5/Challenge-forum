@@ -18,22 +18,23 @@ public class Mensagem {
     Mensagem pai;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    Autor autor;
+    Usuario autor;
 
     String conteudo;
 
+    @Temporal(TemporalType.DATE)
     Date criacao;
 
     protected Mensagem() {}
 
-    public Mensagem(Mensagem pai, Autor autor, String conteudo) {
+    public Mensagem(Mensagem pai, Usuario autor, String conteudo) {
         this.pai = pai;
         this.autor = autor;
         this.conteudo = conteudo;
         this.criacao = new Date();
     }
 
-    public Mensagem(Autor autor,String conteudo){
+    public Mensagem(Usuario autor, String conteudo){
         this(null,autor,conteudo);
     }
 }
