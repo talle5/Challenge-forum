@@ -40,13 +40,13 @@ public class Topico {
     @Enumerated
     private Estado estado;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Mensagem> respostas;
 
     public Topico(String titulo, Autor autor, String mensagem) {
         this.titulo = titulo;
         this.autor = autor;
-        this.mensagem = new Mensagem(null, autor, mensagem);
+        this.mensagem = new Mensagem(autor, mensagem);
         this.dataCriacao = new Date();
         this.estado = Estado.ATIVO;
         this.respostas = new LinkedList<>();
@@ -63,6 +63,7 @@ public class Topico {
     }
 
     public void novaRespota(Mensagem pai, Autor autor, String conteudo) {
-        respostas.add(new Mensagem(pai, autor, conteudo));
+        var a = new Mensagem(pai, autor, conteudo);
+        respostas.add(a);
     }
 }

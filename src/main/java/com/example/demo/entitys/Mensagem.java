@@ -14,7 +14,7 @@ public class Mensagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @OneToOne
+    @ManyToOne
     Mensagem pai;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -31,5 +31,9 @@ public class Mensagem {
         this.autor = autor;
         this.conteudo = conteudo;
         this.criacao = new Date();
+    }
+
+    public Mensagem(Autor autor,String conteudo){
+        this(null,autor,conteudo);
     }
 }

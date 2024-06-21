@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Date;
-
 public interface TopicosRepository extends JpaRepository<Topico, Long>, JpaSpecificationExecutor<Topico> {
     @Query("select t from Topico t where t.id = :id")
     Topico findTopicoById(Long id);

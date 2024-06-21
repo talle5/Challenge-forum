@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entitys.Topico;
-import com.example.demo.entitys.TopicoDto;
+import com.example.demo.entitys.*;
 import com.example.demo.repository.TopicosRepository;
 import com.example.demo.specification.TopicoSpecification;
 import jakarta.transaction.Transactional;
@@ -41,7 +40,7 @@ public class Forum {
     }
 
     @GetMapping("/search")
-    PagedModel<Topico> topicos(Pageable pagina, @RequestParam(name = "date") @DateTimeFormat(pattern = "dd-MM-yyyy") Date... data) {
+    PagedModel<Topico> topicos(Pageable pagina, @RequestParam(name = "data") @DateTimeFormat(pattern = "dd-MM-yyyy") Date... data) {
         return new PagedModel<>(repo.findAll(TopicoSpecification.searchQueryBuilder(data), pagina));
     }
 
@@ -55,6 +54,13 @@ public class Forum {
     @Transactional
     void closeTopic(@PathVariable Long id) {
         repo.getReferenceById(id).close();
+    }
+
+    @PostMapping("/{id}/resposta")
+    @Transactional
+    void responder(@PathVariable Long id,@RequestBody MensagemRespostaDto res) {
+        var topic = repo.getReferenceById(id);
+        topic.novaRespota(topic.getMensagem(),new Autor(res.authorname()),res.mensagem());
     }
 
     @DeleteMapping("{id}")
