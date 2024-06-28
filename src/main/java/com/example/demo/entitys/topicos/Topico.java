@@ -1,5 +1,7 @@
-package com.example.demo.entitys;
+package com.example.demo.entitys.topicos;
 
+import com.example.demo.entitys.mensagens.Mensagem;
+import com.example.demo.entitys.user.Usuario;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -29,7 +31,7 @@ public class Topico {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
-    private Autor autor;
+    private Usuario autor;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Mensagem mensagem;
@@ -40,10 +42,10 @@ public class Topico {
     @Enumerated
     private Estado estado;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mensagem> respostas;
 
-    public Topico(String titulo, Autor autor, String mensagem) {
+    public Topico(String titulo, Usuario autor, String mensagem) {
         this.titulo = titulo;
         this.autor = autor;
         this.mensagem = new Mensagem(autor, mensagem);
@@ -53,7 +55,7 @@ public class Topico {
     }
 
     public Topico(TopicoDto dto) {
-        this(dto.titulo(), new Autor(dto.autor()), dto.mensagem());
+        this(dto.titulo(), new Usuario(dto.autor()), dto.mensagem());
     }
 
     protected Topico() {}
@@ -62,8 +64,7 @@ public class Topico {
         this.estado = Estado.ENCERRRADO;
     }
 
-    public void novaRespota(Mensagem pai, Autor autor, String conteudo) {
-        var a = new Mensagem(pai, autor, conteudo);
-        respostas.add(a);
+    public void novaRespota(Mensagem pai, Usuario autor, String conteudo) {
+        respostas.add(new Mensagem(pai, autor, conteudo));
     }
 }

@@ -1,5 +1,6 @@
-package com.example.demo.entitys;
+package com.example.demo.entitys.mensagens;
 
+import com.example.demo.entitys.user.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
