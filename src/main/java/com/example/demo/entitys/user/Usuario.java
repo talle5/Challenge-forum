@@ -56,13 +56,6 @@ public class Usuario implements UserDetails {
         this(user.nome(),user.user(),user.senha());
     }
 
-    public Usuario(String name) {
-        this.nome = name;
-        topicos = new ArrayList<>();
-        mensagems = new ArrayList<>();
-        ingreso = new Date();
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("HOLE_USER"));

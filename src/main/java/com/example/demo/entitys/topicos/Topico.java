@@ -54,10 +54,6 @@ public class Topico {
         this.respostas = new LinkedList<>();
     }
 
-    public Topico(TopicoDto dto) {
-        this(dto.titulo(), new Usuario(dto.autor()), dto.mensagem());
-    }
-
     protected Topico() {}
 
     public void close() {

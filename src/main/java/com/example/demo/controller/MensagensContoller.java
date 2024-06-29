@@ -2,17 +2,17 @@ package com.example.demo.controller;
 
 import com.example.demo.repository.MensagenRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("mensagen")
+@AllArgsConstructor
 public class MensagensContoller {
 
-    @Autowired
-    private MensagenRepository repo;
+    private final MensagenRepository repo;
 
     @GetMapping("{str}")
     public PagedModel<?> searchMensagem(@PathVariable String str, Pageable page) {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuariosControler {
+//    private final
 
     @PatchMapping("edit")
     void editarUsuario(@RequestBody @Valid String nome){
