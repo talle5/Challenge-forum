@@ -1,7 +1,7 @@
-package com.example.demo.entitys.user;
+package com.example.demo.domain.user;
 
-import com.example.demo.entitys.mensagens.Mensagem;
-import com.example.demo.entitys.topicos.Topico;
+import com.example.demo.domain.mensagens.Mensagem;
+import com.example.demo.domain.topicos.Topico;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,20 +10,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-@Entity
-@Getter
-@Setter
+@Entity @Getter @Setter
 public class Usuario implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(unique = true)
     String nome;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
@@ -34,9 +27,8 @@ public class Usuario implements UserDetails {
     @JsonBackReference
     List<Mensagem> mensagems;
 
-//    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-//    Credenciais credenciais;
-    String senha;
+    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    Credenciais credenciais;
 
     @Temporal(TemporalType.DATE)
     Date ingreso;
@@ -47,27 +39,38 @@ public class Usuario implements UserDetails {
         this.nome = name;
         topicos = new ArrayList<>();
         mensagems = new ArrayList<>();
-        this.senha = senha;
-//        credenciais = new Credenciais(nickname,senha);
+        credenciais = new Credenciais(nickname, senha);
         ingreso = new Date();
-    }
-
-    public Usuario(UsuarioCadastroDto user) {
-        this(user.nome(),user.user(),user.senha());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("HOLE_USER"));
+        return Set.of(new SimpleGrantedAuthority("HOLE_USER"));
     }
 
     @Override
     public String getPassword() {
-        return this.senha;
+        return this.credenciais.senha;
     }
 
     @Override
     public String getUsername() {
-        return this.nome;
+        return this.credenciais.login;
+    }
+
+    @Entity @Getter @Setter
+    public static class Credenciais {
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        @Column(unique = true)
+        private String login;
+        private String senha;
+
+        protected Credenciais() {}
+
+        public Credenciais(String login, String senha) {
+            this.login = login;
+            this.senha = senha;
+        }
     }
 }

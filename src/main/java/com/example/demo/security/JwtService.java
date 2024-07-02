@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.domain.user.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 public class JwtService {
     private final JwtEncoder encoder;
 
-    public String generateToken(Authentication auth) {
+    public String generateToken(Usuario auth) {
         var now = Instant.now();
         var expire = 7200L;
         var scopes = auth.getAuthorities()
@@ -25,7 +26,8 @@ public class JwtService {
                 .collect(Collectors.joining(" "));
         var claims = JwtClaimsSet.builder()
                 .issuedAt(now)
-                .expiresAt(now.plusSeconds(expire)).subject(auth.getName())
+                .expiresAt(now.plusSeconds(expire))
+                .subject(auth.getId().toString())
                 .claim("scope",scopes)
                 .build();
         return encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

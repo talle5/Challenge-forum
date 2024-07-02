@@ -1,15 +1,13 @@
-package com.example.demo.entitys.mensagens;
+package com.example.demo.domain.mensagens;
 
-import com.example.demo.entitys.user.Usuario;
+import com.example.demo.domain.user.Usuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.Instant;
 
-@Entity
-@Getter
-@Setter
+@Entity @Getter @Setter
 public class Mensagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +21,8 @@ public class Mensagem {
 
     String conteudo;
 
-    @Temporal(TemporalType.DATE)
-    Date criacao;
+    @Temporal(TemporalType.TIMESTAMP)
+    Instant criacao;
 
     protected Mensagem() {}
 
@@ -32,7 +30,7 @@ public class Mensagem {
         this.pai = pai;
         this.autor = autor;
         this.conteudo = conteudo;
-        this.criacao = new Date();
+        this.criacao = Instant.now();
     }
 
     public Mensagem(Usuario autor, String conteudo){

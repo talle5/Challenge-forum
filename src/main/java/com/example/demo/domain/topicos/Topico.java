@@ -1,7 +1,7 @@
-package com.example.demo.entitys.topicos;
+package com.example.demo.domain.topicos;
 
-import com.example.demo.entitys.mensagens.Mensagem;
-import com.example.demo.entitys.user.Usuario;
+import com.example.demo.domain.mensagens.Mensagem;
+import com.example.demo.domain.user.Usuario;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

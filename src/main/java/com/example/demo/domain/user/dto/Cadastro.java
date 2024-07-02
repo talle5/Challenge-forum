@@ -1,8 +1,8 @@
-package com.example.demo.entitys.user;
+package com.example.demo.domain.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record UsuarioCadastroDto(
+public record Cadastro(
         @NotBlank String nome,
         @NotBlank String user,
         @NotBlank String senha

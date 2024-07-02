@@ -1,6 +1,6 @@
 package com.example.demo.specification;
 
-import com.example.demo.entitys.topicos.Topico;
+import com.example.demo.domain.topicos.Topico;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
